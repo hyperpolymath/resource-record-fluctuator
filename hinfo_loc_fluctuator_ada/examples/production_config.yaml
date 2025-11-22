@@ -1,0 +1,443 @@
+# HINFO-LOC Fluctuator - Production Configuration Example
+# Enterprise-Grade DNS Security Platform
+#
+# This example demonstrates a secure production deployment with:
+# - Zero-trust access (SDP)
+# - Port rotation for SSH
+# - Security header obfuscation
+# - Time-based service scheduling
+# - NETCONF management (not SNMP)
+# - Comprehensive firewall rules
+
+---
+deployment:
+  mode: production
+  environment: public_internet
+  instance_name: prod-dns-security-01
+  config_version: "2.0.0-enterprise"
+
+# ============================================================================
+# DNS CONFIGURATION
+# ============================================================================
+dns:
+  topology: hidden_primary  # Primary not publicly listed
+  ip_protocol_mode: dual_stack  # IPv4 and IPv6
+  dnssec_enabled: true  # Enable DNSSEC signing
+
+  # Zone transfer configuration (AXFR)
+  axfr:
+    enabled: true
+    tsig_required: true
+    allowed_ips:
+      - 192.168.1.10/32  # Secondary NS1
+      - 192.168.1.11/32  # Secondary NS2
+    topology: hidden_primary
+    primary_server: ns-hidden.internal.example.com
+
+# ============================================================================
+# RECORD FLUCTUATION
+# ============================================================================
+fluctuation:
+  # Original HINFO/LOC fluctuation
+  hinfo_enabled: true
+  loc_enabled: true
+  quantum_server_mode: true  # Both HINFO + LOC simultaneously
+
+  # Fluctuation schedule
+  hinfo_interval: 3600  # Change every hour
+  loc_interval: 1800    # Change every 30 minutes
+
+  # Extended DNS records
+  a_records_enabled: true
+  aaaa_records_enabled: true
+  mx_records_enabled: true
+  txt_records_enabled: true
+
+  # Email security
+  spf_enabled: true
+  dkim_enabled: true
+  dmarc_enabled: true
+
+  # Security records
+  caa_enabled: true    # Certificate Authority Authorization
+  tlsa_enabled: true   # DANE
+  sshfp_enabled: true  # SSH fingerprints
+
+  # Access control via DNS
+  apl_enabled: true    # CIDR-based access lists
+
+# ============================================================================
+# FIREWALL CONFIGURATION
+# ============================================================================
+firewall:
+  backend: firewalld
+  default_zone: public
+  default_deny: true  # Whitelist approach
+
+  # IPv4/IPv6 toggle
+  ipv4_enabled: true
+  ipv6_enabled: true
+
+  # Stateful connection tracking
+  rule_type: stateful
+
+  # Port rotation for SSH
+  port_rotation:
+    enabled: true
+    services:
+      ssh:
+        strategy: time_based  # Maintainers can calculate offline
+        base_port: 10000
+        port_range: 1000  # 10000-10999
+        rotation_interval: 3600  # Rotate every hour
+        psk: "change-this-to-secret-key"  # For PSK strategy
+
+  # Maintenance windows
+  maintenance_windows:
+    - description: "Weekly maintenance"
+      start_day: saturday
+      start_time: "02:00"
+      end_time: "06:00"
+      allowed_ips:
+        - 192.168.1.0/24  # Internal network
+        - 10.0.100.5/32   # VPN gateway
+      ports: [22, 443, 8443]
+
+    - description: "Emergency access"
+      # Always available but restricted
+      allowed_ips:
+        - 192.168.1.100/32  # Admin workstation
+      ports: [22]
+
+# ============================================================================
+# SERVICE SCHEDULING
+# ============================================================================
+service_scheduling:
+  # Mail acceptance (MX)
+  mx:
+    scheduled: true
+    windows:
+      - days: [monday, tuesday, wednesday, thursday, friday]
+        start_time: "08:00"
+        end_time: "18:00"
+      - days: [saturday]
+        start_time: "09:00"
+        end_time: "13:00"
+    protocol: tcp
+    ports: [25, 587, 465]
+
+  # RSS feed availability
+  rss:
+    scheduled: true
+    randomized: true
+    random_window_duration: 300  # 5 minutes
+    random_interval: 3600  # Every hour
+
+  # NNTP (if used)
+  nntp:
+    scheduled: false
+    enabled: false
+
+  # SSH already handled by port_rotation above
+
+# ============================================================================
+# SECURITY HEADERS
+# ============================================================================
+security_headers:
+  # Server identification obfuscation
+  server_header:
+    mode: obfuscated
+    real_value: "nginx/1.21.6"
+    fake_value: "Apache/2.4.54 (Ubuntu)"
+    randomize: true  # Change fake value periodically
+    diagnostic_ips:
+      - 192.168.1.100/32  # Admin can see real value
+
+  # X-Powered-By obfuscation
+  powered_by:
+    mode: hidden  # Don't send at all
+
+  # Technology stack
+  tech_stack:
+    expose_php_version: false
+    expose_framework: false
+    expose_database: false
+    diagnostic_mode: true
+    diagnostic_token: "change-this-secret-token-12345"
+    diagnostic_ips:
+      - 192.168.1.100/32
+
+  # Standard security headers
+  hsts:
+    enabled: true
+    max_age: 31536000  # 1 year
+    include_subdomains: true
+    preload: true
+
+  csp:
+    enabled: true
+    report_only: false
+    directives:
+      - "default-src 'self'"
+      - "script-src 'self' 'nonce-{NONCE}'"
+      - "style-src 'self' 'nonce-{NONCE}'"
+      - "img-src 'self' data: https:"
+      - "font-src 'self'"
+      - "connect-src 'self'"
+      - "frame-ancestors 'none'"
+      - "base-uri 'self'"
+      - "form-action 'self'"
+    nonce_enabled: true
+
+  x_frame_options: DENY
+  x_content_type_options: nosniff
+  referrer_policy: strict-origin-when-cross-origin
+
+  permissions_policy:
+    enabled: true
+    features: |
+      geolocation=(),
+      microphone=(),
+      camera=(),
+      payment=(),
+      usb=()
+
+  # Experimental headers
+  coep: require-corp
+  coop: same-origin
+  corp: same-origin
+
+# ============================================================================
+# SOFTWARE-DEFINED PERIMETER (Zero-Trust)
+# ============================================================================
+sdp:
+  enabled: true  # Zero-trust access control
+
+  # Single Packet Authorization
+  spa:
+    enabled: true
+    encryption: AES_256_GCM
+    hmac_algorithm: HMAC_SHA256
+    shared_key: "change-this-to-strong-random-key-256bit"
+    replay_window: 60  # Allow 60s clock skew
+    max_attempts: 3
+    lockout_duration: 300  # 5 minutes
+
+  # Zero-trust policy
+  default_deny: true
+  continuous_verify: true
+  reauth_interval: 300  # Re-authenticate every 5 minutes
+
+  # Device posture requirements
+  posture:
+    os_version_min: "Ubuntu 20.04"
+    antivirus_required: true
+    firewall_required: true
+    disk_encrypted: true
+    patch_level_days: 30  # Max 30 days since last patch
+
+  # Access policies
+  policies:
+    - name: "Admin SSH Access"
+      required_trust: full_trust
+      allowed_users: ["alice", "bob"]
+      allowed_groups: ["admins", "sre"]
+      time_restrictions:
+        days: [monday, tuesday, wednesday, thursday, friday]
+        start_time: "08:00"
+        end_time: "18:00"
+      source_cidr: ["192.168.1.0/24", "10.0.0.0/8"]
+      destination: "server.example.com"
+      ports: [22]  # Will use rotated port
+      protocol: tcp
+      session_duration: 3600
+      continuous_verify: true
+
+    - name: "Management API Access"
+      required_trust: full_trust
+      allowed_users: ["admin"]
+      allowed_groups: ["admins"]
+      destination: "api.example.com"
+      ports: [443, 8443]
+      protocol: tcp
+      session_duration: 1800
+
+  # Micro-segmentation
+  segments:
+    - name: "DMZ"
+      cidr: "10.1.0.0/24"
+      vlan_id: 10
+      isolation_level: device_verified
+      default_deny: true
+
+    - name: "Application Tier"
+      cidr: "10.2.0.0/24"
+      vlan_id: 20
+      isolation_level: full_trust
+      default_deny: true
+
+    - name: "Database Tier"
+      cidr: "10.3.0.0/24"
+      vlan_id: 30
+      isolation_level: full_trust
+      default_deny: true
+
+# ============================================================================
+# PROTOCOL MANAGEMENT
+# ============================================================================
+protocols:
+  # SNMP - DISABLED (insecure, use NETCONF instead)
+  snmp:
+    enabled: false
+    warn_insecure: true
+    require_v3_only: true
+
+  # NETCONF - RECOMMENDED
+  netconf:
+    enabled: true
+    port: 830
+    capabilities:
+      - base-1.1
+      - candidate
+      - confirmed-commit
+      - validate
+      - rollback-on-error
+    auth_method: publickey
+    require_mfa: true
+    allowed_ips: ["192.168.1.0/24"]
+    tls_enabled: true
+    max_sessions: 10
+    session_timeout: 600
+
+  # RESTCONF - RECOMMENDED
+  restconf:
+    enabled: true
+    port: 443
+    base_path: "/restconf"
+    auth_method: client_certificate
+    tls_version: "1.3"
+    rate_limit: 100
+    cors_enabled: false
+
+  # gNMI - MODERN ALTERNATIVE
+  gnmi:
+    enabled: true
+    port: 9339
+    tls_enabled: true
+    encoding: JSON_IETF
+    subscribe: true  # Streaming telemetry
+    get_enabled: true
+    set_enabled: false  # Read-only
+    max_connections: 50
+
+  # Prometheus metrics export
+  metrics:
+    enabled: true
+    protocol: prometheus
+    port: 9090
+    metrics_path: "/metrics"
+    auth_required: true
+    auth_token: "change-this-bearer-token"
+    client_certs: true
+    rate_limit: 60
+
+  # Security policy
+  prefer_secure: true
+  disable_insecure: true
+  require_tls: true
+  sdp_integration: true  # Require SDP session for management
+
+# ============================================================================
+# LOGGING AND MONITORING
+# ============================================================================
+logging:
+  audit_logging: true
+  security_logging: true
+  metrics_export: true
+  syslog_server: "syslog.example.com"
+  log_level: info  # debug, info, warning, error, critical
+  log_rotation:
+    enabled: true
+    max_size_mb: 100
+    max_age_days: 90
+    compress: true
+
+  # Security event logging
+  log_authentication: true
+  log_authorization: true
+  log_firewall_changes: true
+  log_dns_queries: false  # Too verbose for production
+  log_config_changes: true
+
+# ============================================================================
+# BACKUP AND RECOVERY
+# ============================================================================
+backup:
+  enabled: true
+  interval: 86400  # Daily
+  retention_days: 30
+  backup_path: "/var/backups/hinfo-loc-fluctuator"
+  encrypt_backups: true
+  remote_backup:
+    enabled: true
+    destination: "s3://backups.example.com/dns-security"
+
+# ============================================================================
+# INTEGRATION AND HOOKS
+# ============================================================================
+integration:
+  # API
+  api:
+    enabled: true
+    port: 8080
+    auth_required: true
+    rate_limit: 1000
+
+  # Webhooks for events
+  webhooks:
+    - event: "spa_authentication_failed"
+      url: "https://monitoring.example.com/webhook/security"
+    - event: "config_changed"
+      url: "https://monitoring.example.com/webhook/config"
+    - event: "firewall_rule_added"
+      url: "https://monitoring.example.com/webhook/firewall"
+
+  # Custom scripts
+  hooks:
+    pre_start: "/etc/hinfo-loc-fluctuator/hooks/pre-start.sh"
+    post_config_change: "/etc/hinfo-loc-fluctuator/hooks/post-config.sh"
+
+# ============================================================================
+# EMERGENCY PROCEDURES
+# ============================================================================
+emergency:
+  contact: "security@example.com"
+  emergency_lockdown_enabled: true
+  recovery_config: "/etc/hinfo-loc-fluctuator/recovery.yaml"
+
+  # Fallback configuration on failure
+  fallback:
+    mode: minimal_safe
+    allow_emergency_access: true
+    emergency_ips: ["192.168.1.100/32"]
+    emergency_ports: [22]
+
+---
+# End of production configuration
+#
+# IMPORTANT NOTES:
+# 1. Change all passwords, keys, and tokens!
+# 2. Update IP addresses to match your network
+# 3. Test in staging before production
+# 4. Review security posture regularly
+# 5. Keep emergency recovery config updated
+#
+# Security Checklist:
+# [ ] All demo credentials changed
+# [ ] TLS certificates installed
+# [ ] Firewall rules tested
+# [ ] SDP policies configured
+# [ ] Logging working
+# [ ] Backups tested
+# [ ] Emergency procedures documented
+# [ ] Team trained on new features

@@ -81,22 +81,22 @@ make help
 
 ## ✨ Features
 
-### Implemented ✅
+### Core Features ✅
 
-**Core Functionality:**
+**Original HINFO/LOC Fluctuation:**
 - Type-safe HINFO (CPU + OS) and LOC (geographic) records
 - Compile-time bounds checking (latitude, longitude, altitude, TTL)
-- Random record generation from data pools
+- Random record generation from data pools (68 CPUs, 77 OSes, 52 locations)
 - "Quantum Server" mode (simultaneous HINFO + LOC)
 
-**Security:**
+**Security & Access Control:**
 - Permission system (None → Read-Only → Modify-Local → Modify-Remote → Admin)
 - Session management with 30-minute timeout
 - Constant-time password comparison (timing attack prevention)
 - Replay attack detection
 - Comprehensive audit logging
 
-**Advanced:**
+**Infrastructure:**
 - BIND-format zone file writer
 - Scheduled auto-fluctuation (Ada tasking)
 - INI-style configuration files
@@ -107,6 +107,73 @@ make help
 - 68 CPU types (Intel, AMD, ARM, historical, fictional)
 - 77 operating systems (Linux, BSD, Windows, Unix, fictional)
 - 52 geographic locations (data centers, exotic locations, fictional)
+
+### Enterprise Features ✅ 🆕
+
+**⭐ NEW: Comprehensive DNS Security Platform**
+
+The project has been massively expanded into an enterprise-grade DNS security and infrastructure management platform! See [ENTERPRISE_FEATURES.md](hinfo_loc_fluctuator_ada/docs/ENTERPRISE_FEATURES.md) for full details.
+
+**Extended DNS Records (ALL types):**
+- Basic: A, AAAA, PTR, NS, CNAME
+- Mail: MX, SPF, DKIM, DMARC
+- Security: CAA, TLSA (DANE), SSHFP, APL (CIDR access control)
+- Service: SRV, NAPTR
+- DNSSEC: DS, DNSKEY, NSEC, NSEC3
+- IPv4/IPv6 protocol toggle (Dual-Stack, IPv4-Only, IPv6-Only)
+- DNS topology: Standard, Split-Horizon, Primary-Primary, Hidden-Primary
+- AXFR (zone transfer) with TSIG authentication
+
+**Firewall Integration (firewalld/iptables/nftables/pf):**
+- Time-based maintenance windows with IP restrictions
+- **Port rotation** (SSH/services on schedule - maintainers calculate offline)
+- Service scheduling (MX, RSS, NNTP with time windows)
+- Stateful vs stateless firewall rules
+- Port knocking support
+- IPv4/IPv6 firewall toggle
+- Emergency lockdown/recovery modes
+
+**Security Headers & Obfuscation:**
+- Server header obfuscation (Hidden, Obfuscated, Diagnostic modes)
+- X-Powered-By hiding
+- **Diagnostic mode** (expose real stack only to authorized IPs with secret token)
+- All security headers: HSTS, CSP (with nonces), X-Frame-Options, Referrer-Policy, Permissions-Policy
+- Experimental: COEP, COOP, CORP, Expect-CT, NEL
+- Integration with HINFO for consistent fake stack across DNS+HTTP
+
+**Software-Defined Perimeter (Zero-Trust):**
+- CSA SDP architecture implementation
+- Single Packet Authorization (SPA) with AES-256-GCM encryption
+- Zero-trust access control (default deny all)
+- Device posture validation (OS, AV, firewall, encryption, patches)
+- Continuous authentication and re-verification
+- Micro-segmentation for network isolation
+- Session management with automatic firewall cleanup
+- Trust levels: Untrusted → Device Verified → User Authenticated → Posture Valid → Full Trust
+
+**Protocol Management (Modern alternatives to SNMP):**
+- **NETCONF** (RFC 6241) - Recommended secure management
+- **RESTCONF** (RFC 8040) - RESTful API over HTTPS
+- **gNMI** - Modern gRPC-based management
+- Prometheus/OpenMetrics for metrics export
+- SNMP v1/v2c/v3 (with security warnings, disabled by default)
+- TLS/mTLS for all management protocols
+- Rate limiting and SDP integration
+
+**Master Configuration System:**
+- Deployment modes: Development, Staging, Production, Honeypot, Research
+- Configuration profiles with validation
+- YAML/JSON import/export
+- Hot configuration reload
+- Emergency configurations (lockdown, recovery, minimal-safe)
+- Migration tools and compatibility checking
+
+**Key Enterprise Capabilities:**
+1. **SSH port rotation**: Port changes on schedule, maintainers calculate offline
+2. **Service scheduling**: Accept mail/RSS/NNTP only during specific windows
+3. **Zero-trust SDP**: All ports closed, opened only after authentication
+4. **Stack obfuscation**: Consistent fake stack across DNS (HINFO) and HTTP headers
+5. **Maintainer diagnostics**: Real stack info with secret token for troubleshooting
 
 ### Not Yet Implemented ❌
 

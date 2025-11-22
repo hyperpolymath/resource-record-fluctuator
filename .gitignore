@@ -1,0 +1,78 @@
+# HINFO-LOC Fluctuator .gitignore
+
+# Ada/GNAT build artifacts
+*.o
+*.ali
+*.lexch
+b~*.ad[sb]
+b__*.ad[sb]
+
+# Build directories
+obj/
+bin/
+lib/
+.obj/
+.alire/
+
+# GNAT project artifacts
+*.cgpr
+
+# SPARK verification
+spark/
+gnatprove/
+*.spark
+*.mlw
+*.why
+
+# Logs
+*.log
+hinfo_loc_fluctuator.log
+
+# Configuration files (keep .example)
+config.ini
+*.conf
+!*.example
+
+# Zone files (generated)
+*.zone
+*.db
+zone.db
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+.*.swp
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-*
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Elixir build artifacts (for reference implementation)
+hinfo_loc_fluctuator/_build/
+hinfo_loc_fluctuator/deps/
+hinfo_loc_fluctuator/*.ez
+hinfo_loc_fluctuator/doc/
+hinfo_loc_fluctuator/.fetch
+hinfo_loc_fluctuator/erl_crash.dump
+hinfo_loc_fluctuator/.elixir_ls/
+
+# Security sensitive files
+*.key
+*.pem
+*.secret
+tsig.key
+*.keyfile
+
+# Backup files
+*.bak
+*.backup

@@ -1,0 +1,55 @@
+# HINFO-LOC Fluctuator Configuration File
+# Copy this file to config.ini and customize for your environment
+
+[data]
+# Data pool files for randomization
+cpu_file=data/machines.txt
+os_file=data/operating_systems.txt
+location_file=data/locations.csv
+
+[logging]
+# Logging configuration
+file=hinfo_loc_fluctuator.log
+level=info  # debug, info, warning, error, critical
+console=true
+
+[security]
+# Security settings
+session_timeout=1800  # 30 minutes in seconds
+max_login_attempts=3
+
+# WARNING: Default demo credentials MUST be changed!
+# Edit src/secure_auth.adb to add proper authentication
+
+[dns]
+# DNS server configuration for remote updates
+server=127.0.0.1
+port=53
+tsig_key_file=  # Path to TSIG key file (if using DNS UPDATE)
+
+# Example TSIG key file format (create separately):
+# key "update-key" {
+#     algorithm hmac-sha256;
+#     secret "base64encodedkey==";
+# };
+
+[fluctuation]
+# Automatic fluctuation settings
+auto=false  # Enable automatic periodic fluctuation
+interval=3600  # Interval in seconds (3600 = 1 hour)
+default_ttl=300  # Default TTL for generated records (5 minutes)
+
+[zone]
+# Zone file configuration for local mode
+file=zone.db
+origin=example.com
+primary_ns=ns1.example.com
+hostmaster=admin.example.com
+
+# Example usage:
+# 1. Copy this file to config.ini
+# 2. Customize the settings above
+# 3. Run: ./bin/hinfo_loc_fluctuator --config config.ini
+#
+# Note: Config file support is implemented but not yet integrated
+#       with command-line parsing. This will be added in a future update.

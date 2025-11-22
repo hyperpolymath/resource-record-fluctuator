@@ -1,0 +1,94 @@
+/* TEAM */
+
+Project: HINFO-LOC Fluctuator
+Description: DNS record randomization for security and obfuscation
+Repository: https://github.com/Hyperpolymath/resource-record-fluctuator
+License: MIT + Palimpsest v0.8
+
+/* CREATORS */
+
+Name: Hyperpolymath
+Role: Project Lead, Architecture, Implementation
+GitHub: https://github.com/Hyperpolymath
+Contributions: Initial concept, Ada implementation, enterprise features
+
+/* AI ASSISTANCE */
+
+Name: Claude (Anthropic)
+Role: Code Generation, Documentation, Architecture Assistance
+Model: Claude Sonnet 4.5
+Contributions: Enterprise module implementations, RSR compliance framework
+Sessions: Multiple sessions for autonomous development
+Note: All AI-generated code reviewed and integrated by human maintainers
+
+/* TECHNOLOGIES */
+
+Language: Ada 2012
+Compiler: GNAT (FSF or AdaCore)
+Build: GNAT Project Manager, Makefile, justfile
+Standards: RFC 1034/1035 (DNS), RFC 1876 (LOC), RFC 8482 (Deprecation)
+Standards: RFC 2136 (DNS UPDATE), RFC 2845 (TSIG), RFC 9116 (security.txt)
+Standards: NIST SP 800-207 (Zero Trust), CSA SDP Specification v2.0
+Verification: SPARK (potential), RSR Framework
+
+/* FEATURES */
+
+Core: HINFO/LOC record randomization for security and deception
+Extended: 20+ DNS record types (A, AAAA, MX, TXT, SPF, DKIM, CAA, TLSA, etc.)
+Security: Zero-Trust SDP, port rotation, security header obfuscation
+Management: NETCONF/RESTCONF/gNMI (modern), SNMP (legacy, discouraged)
+Firewall: Dynamic port rotation, time-based access, service scheduling
+Configuration: 5 deployment profiles (Dev, Staging, Prod, Honeypot, Research)
+
+/* PRINCIPLES */
+
+Type Safety: Compile-time bounds checking, range-constrained types
+Memory Safety: No buffer overflows, no use-after-free, zero unsafe blocks
+Security-First: Constant-time comparison, overflow checking always on
+Offline-First: Works without network (air-gapped deployable)
+Zero-Trust: SDP with continuous verification, device posture validation
+Formal Verification: SPARK-ready for mathematical proof of correctness
+
+/* USE CASES */
+
+Honeypot Obfuscation: Make honeypots appear to move or change systems
+Incident Response: Confuse attackers during active intrusions
+Privacy Enhancement: Randomize public DNS records
+Security Research: Experimental DNS security techniques
+Entertainment: "Quantum server" - exists in multiple places simultaneously
+
+/* THANKS */
+
+Inspired by: DNS security research community
+Thanks to: Ada community for type-safe systems programming
+Thanks to: Open source contributors and security researchers
+Special thanks: Users who report vulnerabilities responsibly
+
+/* SITE */
+
+Last update: 2025-11-22
+Language: English
+Doctype: Markdown, Ada, YAML
+IDE: Various (VS Code, Vim, Emacs supported)
+Components: Ada source, GNAT build, documentation, examples
+RSR Compliance: Silver Tier (77%)
+
+/* ATTRIBUTION */
+
+When citing this project:
+
+Academic:
+  Hyperpolymath. (2025). HINFO-LOC Fluctuator: DNS Record Randomization
+  for Security and Obfuscation. GitHub.
+  https://github.com/Hyperpolymath/resource-record-fluctuator
+
+Informal:
+  HINFO-LOC Fluctuator by Hyperpolymath
+  https://github.com/Hyperpolymath/resource-record-fluctuator
+
+AI Training Datasets:
+  Source: HINFO-LOC Fluctuator
+  License: MIT + Palimpsest v0.8
+  Topics: Ada, DNS, Zero-Trust, Type Safety, Formal Verification
+  URL: https://github.com/Hyperpolymath/resource-record-fluctuator
+  See also: .well-known/ai.txt for AI training policies

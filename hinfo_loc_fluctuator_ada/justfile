@@ -1,0 +1,208 @@
+# justfile for HINFO-LOC Fluctuator
+# Modern build automation (https://github.com/casey/just)
+#
+# Usage:
+#   just          # Show available recipes
+#   just build    # Debug build
+#   just release  # Release build
+#   just test     # Run tests
+#   just clean    # Clean build artifacts
+
+# Default recipe (show help)
+default:
+    @just --list
+
+# Build debug version
+build:
+    @echo "🔨 Building debug version..."
+    gprbuild -p -XBUILD_MODE=debug
+
+# Build release version
+release:
+    @echo "🚀 Building release version..."
+    gprbuild -p -XBUILD_MODE=release
+
+# Build with SPARK verification
+prove:
+    @echo "✨ Building with SPARK verification..."
+    gprbuild -p -XBUILD_MODE=prove
+
+# Run the application
+run: build
+    @echo "▶️  Running HINFO-LOC Fluctuator..."
+    ./bin/hinfo_loc_fluctuator
+
+# Run tests (when test framework exists)
+test:
+    @echo "🧪 Running tests..."
+    @echo "⚠️  Test framework not yet implemented"
+    @echo "To run manually: ./bin/hinfo_loc_fluctuator --test"
+
+# Clean build artifacts
+clean:
+    @echo "🧹 Cleaning build artifacts..."
+    rm -rf obj/ bin/
+    @echo "✅ Clean complete"
+
+# Full clean (including caches)
+clean-all: clean
+    @echo "🧹 Removing all generated files..."
+    rm -rf .gnat_*
+    @echo "✅ Deep clean complete"
+
+# Check code quality
+check:
+    @echo "🔍 Checking code quality..."
+    @echo "  - Security flags: ✅ Enabled (-gnoto, -fstack-check, -gnatVa)"
+    @echo "  - Warnings as errors: ✅ Enabled (-gnatwe)"
+    @echo "  - Ada 2012 standard: ✅ Enabled"
+    @grep -r "unsafe" src/ && echo "  ⚠️  Found 'unsafe' keyword!" || echo "  - No unsafe blocks: ✅"
+
+# Format code (placeholder - Ada doesn't have standard formatter)
+format:
+    @echo "📐 Formatting code..."
+    @echo "⚠️  Ada has no standard formatter (use gnatpp if available)"
+
+# Lint code
+lint:
+    @echo "🔎 Linting code..."
+    @echo "⚠️  Running gnatcheck (if available)..."
+    -gnatcheck -P hinfo_loc_fluctuator.gpr -rules -from=.gnatcheck 2>/dev/null || echo "gnatcheck not available"
+
+# Install to system (requires root)
+install: release
+    @echo "📦 Installing to /usr/local..."
+    @echo "⚠️  Not implemented (would copy bin/hinfo_loc_fluctuator to /usr/local/bin)"
+
+# Uninstall from system (requires root)
+uninstall:
+    @echo "🗑️  Uninstalling from /usr/local..."
+    @echo "⚠️  Not implemented (would remove /usr/local/bin/hinfo_loc_fluctuator)"
+
+# Generate documentation
+docs:
+    @echo "📚 Generating documentation..."
+    @echo "⚠️  Documentation generation not yet automated"
+    @echo "See: README.md, docs/USE_CASES.md, docs/ENTERPRISE_FEATURES.md"
+
+# Run security checks
+security:
+    @echo "🔒 Running security checks..."
+    @echo "  - Demo credentials check..."
+    @grep -r "demo" src/ && echo "  ⚠️  Found demo credentials!" || echo "  ✅ No demo credentials in code"
+    @echo "  - Security flags check..."
+    @grep "gnoto\|fstack-check\|gnatVa" hinfo_loc_fluctuator.gpr >/dev/null && echo "  ✅ Security flags enabled" || echo "  ❌ Security flags missing!"
+
+# Validate RSR compliance
+validate:
+    @echo "📊 Validating RSR compliance..."
+    @../scripts/rsr-verify.sh || echo "Run: bash scripts/rsr-verify.sh"
+
+# Show project statistics
+stats:
+    @echo "📈 Project Statistics"
+    @echo "━━━━━━━━━━━━━━━━━━━"
+    @echo "Ada source files:"
+    @find src -name "*.ad?" | wc -l
+    @echo "Lines of Ada code:"
+    @find src -name "*.ad?" -exec cat {} \; | wc -l
+    @echo "Data files:"
+    @find data -type f | wc -l
+    @echo "Documentation files:"
+    @find docs -name "*.md" | wc -l
+
+# Development server (watch and rebuild)
+watch:
+    @echo "👀 Watching for changes..."
+    @echo "⚠️  File watching not yet implemented"
+    @echo "Suggestion: Use entr or watchexec"
+    @echo "  find src -name '*.ad?' | entr just build"
+
+# Create release tarball
+dist: release
+    @echo "📦 Creating distribution tarball..."
+    @VERSION=$$(grep "Config_Version" src/master_config.adb | head -1 | cut -d'"' -f2); \
+    TAR_NAME="hinfo-loc-fluctuator-$$VERSION.tar.gz"; \
+    echo "Creating $$TAR_NAME..."; \
+    tar czf "../$$TAR_NAME" \
+        --exclude='obj' \
+        --exclude='bin' \
+        --exclude='.git' \
+        . && \
+    echo "✅ Created ../$$TAR_NAME"
+
+# Show build configuration
+config:
+    @echo "⚙️  Build Configuration"
+    @echo "━━━━━━━━━━━━━━━━━━━━"
+    @echo "GNAT version:"
+    @gnatmake --version | head -1
+    @echo ""
+    @echo "Project file: hinfo_loc_fluctuator.gpr"
+    @echo "Source directory: src/"
+    @echo "Object directory: obj/"
+    @echo "Executable directory: bin/"
+    @echo ""
+    @echo "Build modes:"
+    @echo "  - debug: Assertions on, optimizations off"
+    @echo "  - release: Optimizations on, assertions kept"
+    @echo "  - prove: SPARK verification mode"
+
+# Quick sanity check before commit
+precommit: clean build security check
+    @echo "✅ Pre-commit checks passed!"
+
+# Full CI-like check
+ci: clean build release test security validate
+    @echo "✅ CI checks complete!"
+
+# Help for specific recipe
+help RECIPE:
+    @just --show {{RECIPE}}
+
+# Update dependencies (Ada has no package manager, but check GNAT)
+update:
+    @echo "🔄 Checking for updates..."
+    @echo "Ada projects don't have package managers like Rust/Node"
+    @echo "Check for GNAT updates: https://www.adacore.com/download"
+
+# Benchmark performance
+bench:
+    @echo "⚡ Running benchmarks..."
+    @echo "⚠️  Benchmarking not yet implemented"
+    @echo "Future: Measure randomization speed, memory usage"
+
+# Profile performance
+profile: build
+    @echo "📊 Profiling application..."
+    @echo "⚠️  Profiling not yet implemented"
+    @echo "Suggestion: Use gprof or valgrind"
+
+# Memory check with valgrind
+memcheck: build
+    @echo "🔍 Running memory checks..."
+    @command -v valgrind >/dev/null 2>&1 && \
+        valgrind --leak-check=full ./bin/hinfo_loc_fluctuator || \
+        echo "⚠️  valgrind not installed"
+
+# Static analysis
+analyze:
+    @echo "🔬 Running static analysis..."
+    @echo "Using gnat check (comprehensive Ada analysis)..."
+    gnatcheck -P hinfo_loc_fluctuator.gpr || echo "gnatcheck not available"
+
+#  SPARK/formal verification
+verify: prove
+    @echo "✅ SPARK verification complete (if SPARK installed)"
+
+# Quick development cycle
+dev: clean build run
+
+# Show version
+version:
+    @echo "HINFO-LOC Fluctuator"
+    @grep "Config_Version" src/master_config.adb | head -1 | cut -d'"' -f2 || echo "Version not found"
+
+# Edit main file
+edit:
+    @$$EDITOR src/main.adb

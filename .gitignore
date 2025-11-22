@@ -10,7 +10,7 @@ b__*.ad[sb]
 # Build directories
 obj/
 bin/
-lib/
+hinfo_loc_fluctuator_ada/lib/
 .obj/
 .alire/
 

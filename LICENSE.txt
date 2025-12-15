@@ -1,18 +1,19 @@
-# Dual License: MIT OR Palimpsest v0.8
+SPDX-License-Identifier: MIT OR AGPL-3.0-or-later
+SPDX-FileCopyrightText: 2024-2025 hyperpolymath
 
-SPDX-License-Identifier: MIT OR Palimpsest-0.8
+================================================================================
+DUAL LICENSE: MIT OR AGPL-3.0-or-later
+================================================================================
 
-You may use this software under the terms of EITHER:
-- The MIT License (below), OR
-- The Palimpsest License v0.8 (below)
+This project is dual-licensed under the MIT License OR the GNU Affero General
+Public License v3.0 or later. You may choose to use, copy, modify, and
+distribute this work under the terms of EITHER license (your choice).
 
-Choose the license that best fits your use case.
+--------------------------------------------------------------------------------
+MIT LICENSE
+--------------------------------------------------------------------------------
 
----
-
-## Option 1: MIT License
-
-Copyright (c) 2024-2025 HINFO-LOC Fluctuator Contributors
+Copyright (c) 2024-2025 hyperpolymath
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,75 +33,59 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
----
+--------------------------------------------------------------------------------
+GNU AFFERO GENERAL PUBLIC LICENSE v3.0 OR LATER
+--------------------------------------------------------------------------------
 
-## Option 2: Palimpsest License v0.8
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your option) any
+later version.
 
-Copyright (c) 2024-2025 HINFO-LOC Fluctuator Contributors
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+details.
 
-**Politically Autonomous Software License**
+You should have received a copy of the GNU Affero General Public License along
+with this program. If not, see <https://www.gnu.org/licenses/>.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, subject to the following conditions:
+The full text of the AGPL-3.0 is available at:
+  https://www.gnu.org/licenses/agpl-3.0.txt
 
-1. **Attribution**: The above copyright notice and this permission notice shall
-   be included in all copies or substantial portions of the Software.
+--------------------------------------------------------------------------------
+CHOOSING YOUR LICENSE
+--------------------------------------------------------------------------------
 
-2. **Reversibility**: Any modifications that reduce the user's ability to
-   reverse, undo, or modify their own data or system state are prohibited
-   without explicit opt-in consent and clear documentation.
+You may choose to use this work under:
+  1. MIT License - Standard permissive open source license
+  2. AGPL-3.0-or-later - Copyleft license requiring source disclosure for
+     network services
 
-3. **Emotional Safety**: The Software should, where practical, minimize anxiety
-   and promote psychological safety for contributors and users. Features that
-   track "emotional temperature" or well-being metrics must be opt-in only.
+For most uses, MIT License provides maximum flexibility.
+For ensuring open source remains open (especially for SaaS/network services),
+AGPL-3.0-or-later provides stronger protections.
 
-4. **No Harm**: The Software may not be used for:
-   - Surveillance without informed consent
-   - Discrimination based on protected characteristics
-   - Causing intentional psychological harm
-   - Violating privacy rights
+================================================================================
+PALIMPSEST PHILOSOPHICAL OVERLAY (NON-BINDING)
+================================================================================
 
-5. **Federation and Autonomy**: The Software should support distributed,
-   federated, and decentralized modes of operation where possible. No single
-   entity should have exclusive control over users' data or functionality.
+This project encourages (but does not legally require) adherence to the
+principles of the Palimpsest License - a framework for consent-based digital
+interaction and the future web.
 
-6. **Right to Fork**: Users have an irrevocable right to fork the Software and
-   remove or modify any features, including tracking, telemetry, or restrictions.
+Core Principles (Encouraged):
+  - Respect for emotional and creative lineage
+  - Transparent AI training practices with explicit consent
+  - Preservation of metadata and attribution
+  - Protection of narrative intent and cultural context
 
-7. **Transparency**: Any data collection, telemetry, or analytics must be:
-   - Clearly documented
-   - Opt-in by default
-   - Reversible without loss of functionality
-   - Exportable in standard formats
+The Palimpsest principles represent our vision for a consent-based internet.
+While not legally binding for use of this software, we encourage all users
+and contributors to familiarize themselves with these principles.
 
-8. **AI Training**: Use of this Software for training AI/ML models is permitted
-   with attribution. See `.well-known/ai.txt` for specific policies.
+Learn more: https://github.com/hyperpolymath/palimpsest-license
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
----
-
-ADDITIONAL SECURITY DISCLAIMER:
-
-This software modifies DNS infrastructure and should only be used with proper
-authorization. The authors and contributors assume no liability for misuse,
-unauthorized DNS modifications, or any damages resulting from the use of this
-software.
-
-IMPORTANT WARNINGS:
-1. Demo credentials are included for testing - MUST be changed for any real use
-2. Simplified cryptography is used - replace with bcrypt/Argon2 for production
-3. DNS UPDATE functionality is partially implemented - complete before production
-4. This tool is intended for authorized security research, honeypot deployment,
-   and educational purposes only
-
-USE AT YOUR OWN RISK. Always obtain proper authorization before modifying
-DNS infrastructure.
+================================================================================
+END OF LICENSE
+================================================================================

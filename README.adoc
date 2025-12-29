@@ -1,5 +1,7 @@
 = [quantum (sic)] DNS Fluctuator
 
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+
 DNS record randomization tool for deprecated HINFO and LOC records. Built with Ada for maximum security and type safety.
 
 == 🎯 Purpose
@@ -44,12 +46,18 @@ resource-record-fluctuator/
 
 ```bash
 = Navigate to Ada implementation
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 cd hinfo_loc_fluctuator_ada
 
 = Build
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 make
 
 = Run
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 ./bin/hinfo_loc_fluctuator
 ```
 
@@ -66,16 +74,24 @@ See [hinfo_loc_fluctuator_ada/README.md](hinfo_loc_fluctuator_ada/README.md) for
 
 ```bash
 = Build in debug mode
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 cd hinfo_loc_fluctuator_ada
 make debug
 
 = Build with optimizations (safety checks still enabled!)
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 make release
 
 = Run SPARK formal verification (if SPARK installed)
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 make verify
 
 = See all options
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 make help
 ```
 
@@ -324,10 +340,14 @@ quantum.example.com. 300 IN HINFO "Intel-Xeon" "Ubuntu-22.04"
 
 = Wait 30 seconds...
 
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+
 $ dig quantum.example.com HINFO
 quantum.example.com. 300 IN HINFO "ARM-Cortex-A72" "Alpine-Linux"
 
 = The server exists in quantum superposition! 🐱⚛️
+
+image:https://img.shields.io/badge/license-AGPL--3.0-blue.svg[AGPL-3.0,link="https://www.gnu.org/licenses/agpl-3.0"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
 ```
 
 *Remember:* Schrödinger's server is both running AND not running until observed. Our server is both Intel AND ARM until queried!

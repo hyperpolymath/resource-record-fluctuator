@@ -38,7 +38,7 @@ resource-record-fluctuator/
 │   └── README.md                  Why Ada was chosen instead
 │
 ├── CLAUDE.md                      Context for Claude Code sessions
-├── LICENSE                        MIT License
+├── LICENSE                        Palimpsest-MPL-1.0 License
 └── README.md                      This file
 ```
 
@@ -310,7 +310,7 @@ make prove     # SPARK formal verification mode
 
 == 📄 License
 
-MIT License - see [LICENSE](LICENSE) file.
+Palimpsest-MPL-1.0 License - see [LICENSE](LICENSE) file.
 
 *Additional Security Disclaimer:* This software modifies DNS infrastructure. Use only with proper authorization. Demo credentials and simplified crypto MUST be replaced for production use.
 

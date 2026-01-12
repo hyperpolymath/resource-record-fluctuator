@@ -1,7 +1,10 @@
 = [quantum (sic)] DNS Fluctuator
 
-image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
-image:https://img.shields.io/badge/Philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+image:[License,link="https://github.com/hyperpolymath/palimpsest-license"]
+
+// SPDX-License-Identifier: PMPL-1.0
+// SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
+
 
 
 DNS record randomization tool for deprecated HINFO and LOC records. Built with Ada for maximum security and type safety.
@@ -38,7 +41,7 @@ resource-record-fluctuator/
 │   └── README.md                  Why Ada was chosen instead
 │
 ├── CLAUDE.md                      Context for Claude Code sessions
-├── LICENSE                        MIT License
+├── LICENSE                        Palimpsest-MPL-1.0 License
 └── README.md                      This file
 ```
 
@@ -310,7 +313,7 @@ make prove     # SPARK formal verification mode
 
 == 📄 License
 
-MIT License - see [LICENSE](LICENSE) file.
+Palimpsest-MPL-1.0 License - see [LICENSE](LICENSE) file.
 
 *Additional Security Disclaimer:* This software modifies DNS infrastructure. Use only with proper authorization. Demo credentials and simplified crypto MUST be replaced for production use.
 

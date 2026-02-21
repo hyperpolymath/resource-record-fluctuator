@@ -350,3 +350,8 @@ quantum.example.com. 300 IN HINFO "ARM-Cortex-A72" "Alpine-Linux"
 ---
 
 *"With great DNS power comes great type safety responsibility."*
+
+
+== Architecture
+
+See link:TOPOLOGY.md[TOPOLOGY.md] for a visual architecture map and completion dashboard.

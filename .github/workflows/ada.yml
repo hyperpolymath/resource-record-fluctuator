@@ -1,4 +1,6 @@
 # SPDX-License-Identifier: PMPL-1.0
+permissions: read-all
+
 name: Ada (GNAT)
 
 on:

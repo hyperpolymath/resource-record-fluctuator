@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Clade declaration — part of the gv-clade-index registry
+# See: https://github.com/hyperpolymath/gv-clade-index
+
+[identity]
+uuid = "89522bb3-9016-529c-a6de-8783f1a0389c"
+primary-forge = "github"
+primary-owner = "hyperpolymath"
+canonical-name = "resource-record-fluctuator"
+prefixed-name = "pt-resource-record-fluctuator"
+
+[clade]
+primary = "pt"
+secondary = ["ix"]
+assigned = "2026-03-16"
+rationale = ""
+
+[forges]
+github = "hyperpolymath/resource-record-fluctuator"
+gitlab = "hyperpolymath/resource-record-fluctuator"
+bitbucket = "hyperpolymath/resource-record-fluctuator"
+
+[lineage]
+type = "standalone"
+parent = "DNS resource record management"
+born = "2026-03-16"

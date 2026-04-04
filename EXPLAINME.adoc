@@ -1,22 +1,136 @@
 // SPDX-License-Identifier: PMPL-1.0-or-later
+// Copyright (c) 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 = [quantum (sic)] DNS Fluctuator — Show Me The Receipts
 :toc:
 :icons: font
+:author: Jonathan D.A. Jewell
 
-The README makes claims. This file backs them up.
+The README makes claims. This file backs them up, traces the critical paths,
+and tells a reviewer exactly where to look.
+
+== Claim 1: Ada for Maximum Type Safety on DNS Infrastructure
 
 [quote, README]
 ____
-DNS record randomization tool for deprecated HINFO and LOC records. Built with Ada for maximum security and type safety.
+DNS record randomization tool for deprecated HINFO and LOC records. Built with
+Ada for maximum security and type safety.
 ____
+
+*How it works:*
+The production implementation is the Ada crate at
+`hinfo_loc_fluctuator_ada/`. The core type definitions are in
+`src/dns_records.ads` — Ada's package specification (`.ads`) is a pure
+interface, with the body in the corresponding `.adb` file.
+
+The type safety claim is literal: Ada's range-checked fixed-point types are
+used for all geographic values. `Latitude_Degrees` is declared as
+`delta 0.000_001 range -90.0 .. 90.0` — any value outside this range raises
+`Constraint_Error` at runtime (and can be proven absent by SPARK). Similarly,
+`TTL_Seconds is range 1 .. 604_800` makes a zero-TTL or week-plus-TTL a
+compile-time type error. DNS string fields use `Ada.Strings.Bounded` to enforce
+the 255-character DNS field limit.
+
+The randomisation engine is in `src/randomizer.ads/adb`. It loads three data
+pools from `data/`: `machines.txt` (68 CPU types), `operating_systems.txt`
+(77 OS names), and `locations.csv` (52 geographic coordinates). On each
+fluctuation cycle, it picks randomly from these pools to generate a new
+`HINFO_Record` or `LOC_Record`.
+
+The `Scheduler` package (`src/scheduler.ads/adb`) uses Ada's native `task type`
+for periodic fluctuation — an Ada tasking construct that runs concurrently
+without external threads library.
+
+*Honest caveat:*
+The CSV parser in `randomizer.adb` (`Load_Location_Pool`) reads the file name
+but does not yet parse CSV content — it is marked in `CLAUDE.md` as a known
+stub. The `dns_update.adb` (RFC 2136 dynamic DNS UPDATE) is framework-complete
+but actual DNS server communication is not yet implemented. SPARK formal
+verification is on the backlog (`PROOF-NEEDS.md`).
+
+== Claim 2: Dual Purpose — Amusing and Serious Security Applications
+
+[quote, README]
+____
+Make your server appear to exist in quantum superposition - simultaneously as
+different hardware in multiple locations! Serious Uses: Honeypot obfuscation
+(make honeypots appear to move), attack response and deception, privacy
+enhancement for public DNS records, security research and education.
+____
+
+*How it works:*
+HINFO (RFC 1035) and LOC (RFC 1876) records are deprecated per RFC 8482 —
+intentionally. Their deprecation means they appear in DNS responses but are
+ignored by most resolvers, making them ideal for decoy/obfuscation signals
+without affecting production resolution of A/AAAA/MX records.
+
+The security model layers are:
+
+- `src/secure_auth.ads/adb` — Permission system with five levels (`None`,
+  `Read_Only`, `Modify_Local`, `Modify_Remote`, `Admin`). Uses constant-time
+  password comparison to prevent timing-based credential inference. 30-minute
+  session timeout. Nonce-based replay attack detection.
+- `src/firewall_manager.ads/adb` — Port rotation with a time-based algorithm;
+  service scheduling so the attack surface changes on a schedule aligned with
+  DNS fluctuation.
+- `src/sdp_controller.ads/adb` — Zero-trust Software-Defined Perimeter with
+  Single Packet Authorization (SPA).
+- `src/logger.ads/adb` — Thread-safe audit logging via Ada protected objects.
+
+The Elixir prototype under `hinfo_loc_fluctuator/` was the original
+implementation. It was superseded by the Ada implementation after identifying
+that DNS infrastructure modification warrants Ada's compile-time safety
+guarantees over Elixir's dynamic model.
+
+*Honest caveat:*
+Demo credentials (`admin`/`user`/`operator`) are hardcoded in `secure_auth.adb`
+with placeholder hash values. These MUST be replaced before any real deployment.
+Real crypto (bcrypt/Argon2) is not yet integrated. Actual DNS server
+communication requires TSIG authentication (RFC 2845) which is specified but
+not cryptographically implemented.
+
+== Dogfooded Across The Account
+
+[cols="2,3,1"]
+|===
+| Repo / System | How the fluctuator is used | Status
+
+| `hesiod-dns-map` (flatracoon) | Shares DNS record type knowledge; LOC record model is reference for Hesiod HS-class positioning | Design reference
+| `hypatia` security scanner | Planned: fluctuator's deception-tech patterns inform Hypatia honeypot-detection rules | Planned
+| Security research | Used to demonstrate "quantum server" for educational/conference material | Live (manual)
+| Personal DNS infrastructure | Intended for public-facing DNS obfuscation on hyperpolymath.org zones | Intended
+|===
 
 == File Map
 
-[cols="1,2"]
+[cols="1,3"]
 |===
 | Path | What's There
 
-| `test(s)/` | Test suite
+| `hinfo_loc_fluctuator_ada/` | **Primary implementation** — the Ada codebase (RECOMMENDED)
+| `hinfo_loc_fluctuator_ada/src/dns_records.ads` | **Critical path.** Core type definitions: `HINFO_Record`, `LOC_Record`, range-checked coordinate/TTL types
+| `hinfo_loc_fluctuator_ada/src/randomizer.ads/adb` | Data pool loading and random record generation; reads `data/*.txt` and `data/*.csv`
+| `hinfo_loc_fluctuator_ada/src/secure_auth.ads/adb` | Authentication: five permission levels, constant-time compare, nonce-based replay detection
+| `hinfo_loc_fluctuator_ada/src/scheduler.ads/adb` | Ada `task type` for periodic fluctuation; configurable interval and zone file output
+| `hinfo_loc_fluctuator_ada/src/tui.ads/adb` | Text-based menu TUI for interactive operation
+| `hinfo_loc_fluctuator_ada/src/zone_writer.ads/adb` | BIND zone file generation (RFC 1035 format)
+| `hinfo_loc_fluctuator_ada/src/logger.ads/adb` | Thread-safe audit logger via Ada protected objects
+| `hinfo_loc_fluctuator_ada/src/dns_update.ads/adb` | RFC 2136 DNS UPDATE framework (TSIG stub)
+| `hinfo_loc_fluctuator_ada/src/firewall_manager.ads/adb` | Port rotation and service scheduling
+| `hinfo_loc_fluctuator_ada/src/sdp_controller.ads/adb` | Zero-trust SDP with Single Packet Authorization
+| `hinfo_loc_fluctuator_ada/src/main.adb` | Entry point; bootstraps TUI and scheduler
+| `hinfo_loc_fluctuator_ada/data/machines.txt` | 68 CPU type strings for HINFO randomisation
+| `hinfo_loc_fluctuator_ada/data/operating_systems.txt` | 77 OS name strings for HINFO randomisation
+| `hinfo_loc_fluctuator_ada/data/locations.csv` | 52 geographic locations for LOC randomisation
+| `hinfo_loc_fluctuator_ada/hinfo_loc_fluctuator.gpr` | GNAT project file (compiler flags, safety checks enabled in all modes)
+| `hinfo_loc_fluctuator_ada/Makefile` | Build targets: `make`, `make release`, `make prove`
+| `hinfo_loc_fluctuator_ada/docs/USE_CASES.md` | Detailed honeypot/deception/privacy use case scenarios
+| `hinfo_loc_fluctuator_ada/docs/ENTERPRISE_FEATURES.md` | Enterprise feature guide (SDP, protocol management)
+| `hinfo_loc_fluctuator/` | Original Elixir prototype — reference only, NOT recommended for production
+| `PROOF-NEEDS.md` | SPARK formal verification backlog
+| `Justfile` | Build recipes: `just build`, `just test`
+| `flake.nix` / `guix.scm` | Reproducible environment (includes GNAT compiler)
+| `contractiles/` | Contractile trust/dust/intend check files
+| `.machine_readable/6a2/` | A2ML state, meta, ecosystem, agentic, neurosym, playbook manifests
 |===
 
 == Questions?

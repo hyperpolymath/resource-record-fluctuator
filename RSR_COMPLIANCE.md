@@ -23,7 +23,7 @@ The HINFO-LOC Fluctuator demonstrates strong foundational security and type safe
 | 2 | **Memory Safety** | ✅ COMPLETE | 10/10 | No buffer overflows, ownership model, zero `unsafe` |
 | 3 | **Documentation** | ⚠️ PARTIAL | 5/10 | README exists, missing governance docs |
 | 4 | **.well-known/** | ❌ MISSING | 0/10 | No security.txt, ai.txt, humans.txt |
-| 5 | **Build System** | ⚠️ PARTIAL | 6/10 | GNAT+Makefile, no justfile/Nix |
+| 5 | **Build System** | ⚠️ PARTIAL | 6/10 | GNAT+Makefile, no Justfile/Nix |
 | 6 | **Testing** | ⚠️ PARTIAL | 4/10 | No unit tests, no RSR self-verification |
 | 7 | **TPCF** | ❌ MISSING | 0/10 | No Tri-Perimeter framework |
 | 8 | **Dependencies** | ✅ GOOD | 8/10 | Zero external deps (GNAT stdlib only) |
@@ -122,7 +122,7 @@ The HINFO-LOC Fluctuator demonstrates strong foundational security and type safe
 - ❌ `flake.nix` (Nix reproducible builds)
 - ❌ CI/CD pipeline (.gitlab-ci.yml or .github/workflows)
 
-**Action Required**: Add justfile and Nix flake
+**Action Required**: Add Justfile and Nix flake
 
 ---
 
@@ -331,7 +331,7 @@ Run this checklist after Phase 1:
 [ ] .well-known/humans.txt (attribution)
 
 # Build System
-[ ] justfile with 10+ recipes
+[ ] Justfile with 10+ recipes
 [ ] Makefile exists
 [ ] GNAT project file exists
 [ ] All security flags enabled

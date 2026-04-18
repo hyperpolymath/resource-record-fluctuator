@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.well-known/` directory with RFC 9116 security.txt, ai.txt, humans.txt
 - Comprehensive governance documents (SECURITY.md, CONTRIBUTING.md, CODE_OF_CONDUCT.md, MAINTAINERS.md)
 - TPCF (Tri-Perimeter Contribution Framework) documentation
-- justfile for modern build automation
+- Justfile for modern build automation
 - Dual licensing (MIT + Palimpsest v0.8)
 - RSR compliance self-verification script
 

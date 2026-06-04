@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # HINFO-LOC Fluctuator - Quantum Server™
 
 DNS record randomization tool for deprecated HINFO (host info) and LOC (geographic location) records. Built with Ada for maximum security and type safety.

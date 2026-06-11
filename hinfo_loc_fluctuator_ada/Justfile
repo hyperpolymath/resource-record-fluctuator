@@ -206,3 +206,6 @@ version:
 # Edit main file
 edit:
     @$$EDITOR src/main.adb
+
+secret-scan-trufflehog:
+    @command -v trufflehog >/dev/null && trufflehog filesystem . --only-verified || true

@@ -1,6 +1,7 @@
 = [quantum (sic)] DNS Fluctuator
 
 image:https://img.shields.io/badge/license-PMPL--1.0-blue.svg[License,link="https://github.com/hyperpolymath/palimpsest-license"]
+image:https://sonarcloud.io/api/project_badges/quality_gate?project=hyperpolymath_resource-record-fluctuator[Quality gate,link=https://sonarcloud.io/summary/new_code?id=hyperpolymath_resource-record-fluctuator]
 
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell

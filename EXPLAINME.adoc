@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // Copyright (c) 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 = [quantum (sic)] DNS Fluctuator — Show Me The Receipts
+
+image:https://sonarcloud.io/api/project_badges/quality_gate?project=hyperpolymath_resource-record-fluctuator[Quality gate,link=https://sonarcloud.io/summary/new_code?id=hyperpolymath_resource-record-fluctuator]
 :toc:
 :icons: font
 :author: Jonathan D.A. Jewell

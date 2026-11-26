@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: MPL-2.0
+# Manifest for this repository (schema proven/manifest/v1); see
+# hyperpolymath/proven-cicd-and-workflows docs/PROVEN-ADOPTION.adoc.
+#
+# The root Justfile `build` and `test` recipes are `echo "TODO"` placeholders
+# that exit 0, so the justfile convention is deliberately overridden below
+# rather than left to pass vacuously.
+schema = "proven/manifest/v1"
+
+[languages.ignore.ada]
+reason = "the main implementation (hinfo_loc_fluctuator_ada, gprbuild project) needs GNAT and gprbuild; umbrella release 0.1 provisions no Ada toolchain. No Ada tests exist."
+
+# ---- elixir ------------------------------------------------------------------
+# hinfo_loc_fluctuator/ has lib/dns_records.ex and a real ExUnit file
+# (test/dns_records_test.exs) but no mix.exs. Verified locally with Elixir 1.14:
+# lib/dns_records.ex fails to compile (undefined function class/0 and ttl/0 at
+# line 30, HINFO.new/4), so the tests cannot run.
+[categories.unit.elixir.waiver]
+reason = "hinfo_loc_fluctuator has no mix.exs and lib/dns_records.ex does not compile (undefined ttl/class at line 30), so its ExUnit file cannot run"
+until = "2027-01-15"
+
+[categories.build.elixir.waiver]
+reason = "no mix.exs and lib/dns_records.ex does not compile; see unit"
+until = "2027-01-15"
+
+[categories.smoke.elixir.waiver]
+reason = "no smoke tests and the module does not compile; see unit"
+until = "2027-01-15"
+
+[categories.p2p.elixir.waiver]
+reason = "no integration tests exist (TEST-NEEDS.adoc: 0 integration, 0 E2E); see unit"
+until = "2027-01-15"
+
+# ---- shell -------------------------------------------------------------------
+[categories.unit.shell.waiver]
+reason = "no tests exist for scripts/rsr-verify.sh or setup.sh; tests/bench_dns.sh is a benchmark, not a test"
+until = "2027-01-15"
+
+[categories.smoke.shell.waiver]
+reason = "no smoke test exists; see unit"
+until = "2027-01-15"
+
+[categories.build.shell]
+na = "interpreted scripts, nothing to compile"
+
+[categories.p2p.shell]
+na = "the scripts are independent helpers with no inter-component seam"
+
+# ---- bench -------------------------------------------------------------------
+# tests/bench_dns.sh is a shell-level proxy benchmark (file creation and
+# parsing throughput), not a measurement of the Ada or Elixir code. Verified
+# locally: exits 0 in about 2 s. No history on main yet, hence baselining.
+[bench.dns_proxy]
+command = "bash tests/bench_dns.sh"
+baselining = true

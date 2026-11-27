@@ -37,6 +37,7 @@ task = "go-task"
 description = "Install pinned JS dev tools (Prettier) from bun.lock"
 run = "bun install --frozen-lockfile"
 
+# gnat and gprbuild come from the system (apt-get install gnat gprbuild, as the Ada workflow does); mise does not provide them.
 [tasks.build]
 dir = "hinfo_loc_fluctuator_ada"
 run = "gprbuild -p -XBUILD_MODE=debug"
